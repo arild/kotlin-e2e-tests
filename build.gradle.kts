@@ -28,8 +28,9 @@ dependencies {
 	implementation("org.springframework.kafka:spring-kafka")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
-	testImplementation("org.testcontainers:junit-jupiter")
 	testImplementation("org.testcontainers:kafka")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.2.3")
 }
 
 dependencyManagement {

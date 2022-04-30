@@ -1,11 +1,11 @@
-package com.example.e2etests
+package com.example.e2e
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class E2eTestsApplication
+class Application
 
 fun main(args: Array<String>) {
-	runApplication<E2eTestsApplication>(*args)
+	runApplication<Application>(*args)
 }
