@@ -10,8 +10,8 @@ class OrderTest : StringSpec({
 
     "Order test" {
         val order = Order(
-            userId = 100L,
-            listOf(OrderLine(BigDecimal(10.0)), OrderLine(BigDecimal(10.0)))
+            id = 100L,
+            listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(10.0)))
         )
 
         order.orderLines.size shouldBe 2

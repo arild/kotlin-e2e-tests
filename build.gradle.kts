@@ -1,11 +1,13 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-	id("org.springframework.boot") version "3.0.0-M2"
+	id("org.springframework.boot") version "2.6.7"
 	id("io.spring.dependency-management") version "1.0.11.RELEASE"
-	kotlin("jvm") version "1.6.20-RC2"
-	kotlin("plugin.spring") version "1.6.20-RC2"
-	kotlin("plugin.jpa") version "1.6.20-RC2"
+	id("org.jetbrains.kotlin.plugin.noarg") version "1.3.31"
+	id("org.jetbrains.kotlin.plugin.allopen") version "1.6.21"
+	kotlin("jvm") version "1.6.21"
+	kotlin("plugin.spring") version "1.6.21"
+	kotlin("plugin.jpa") version "1.6.21"
 }
 
 group = "com.example"
@@ -26,6 +28,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.kafka:spring-kafka")
+	implementation("org.postgresql:postgresql:42.3.4")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 	testImplementation("org.testcontainers:kafka")
