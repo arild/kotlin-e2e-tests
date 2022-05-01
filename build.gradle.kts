@@ -19,7 +19,7 @@ repositories {
 	maven { url = uri("https://repo.spring.io/milestone") }
 }
 
-extra["testcontainersVersion"] = "1.16.2"
+extra["testcontainersVersion"] = "1.17.1"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
@@ -31,9 +31,11 @@ dependencies {
 	implementation("org.postgresql:postgresql:42.3.4")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
+	testImplementation("org.testcontainers:postgresql")
 	testImplementation("org.testcontainers:kafka")
 	testImplementation("org.testcontainers:junit-jupiter")
-	testImplementation("io.kotest:kotest-runner-junit5-jvm:5.2.3")
+	testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.4")
+	testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
 }
 
 dependencyManagement {
@@ -52,3 +54,6 @@ tasks.withType<KotlinCompile> {
 tasks.withType<Test> {
 	useJUnitPlatform()
 }
+
+apply(plugin = "kotlin-spring")
+apply(plugin = "kotlin-jpa")
