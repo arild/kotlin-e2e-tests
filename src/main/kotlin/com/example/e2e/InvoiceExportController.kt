@@ -1,4 +1,4 @@
-package com.example.e2e.controller
+package com.example.e2e
 
 import com.example.e2e.repository.OrderRepository
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE

@@ -1,9 +1,10 @@
 package com.example.e2e
 
 import com.example.e2e.config.EndToEndTest
-import com.example.e2e.domain.Order
-import com.example.e2e.domain.OrderLine
-import com.example.e2e.repository.OrderRepository
+import com.example.e2e.config.InvoiceEventProducer
+import com.example.e2e.config.waitUntilMessagesAreConsumed
+import com.example.e2e.kafka.OrderEvent
+import com.example.e2e.kafka.OrderLineEvent
 import org.hamcrest.CoreMatchers.equalTo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
@@ -16,20 +17,24 @@ import java.math.BigDecimal
 
 class InvoiceExportTest(
     @Autowired val webApplicationContext: WebApplicationContext,
-    @Autowired val orderRepository: OrderRepository
+    @Autowired val producer: InvoiceEventProducer
 ) : EndToEndTest({
 
     "Order repository test" {
-        val order1 = Order(
-            userId = 100L,
-            orderLines = listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(10.0)))
+        producer.send(
+            OrderEvent(
+                userId = 10L,
+                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)), OrderLineEvent(price = BigDecimal(20.0)))
+            )
         )
-        val order2 = Order(
-            userId = 200L,
-            orderLines = listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(10.0)))
+        producer.send(
+            OrderEvent(
+                userId = 20L,
+                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)))
+            )
         )
-        orderRepository.save(order1)
-        orderRepository.save(order2)
+
+        waitUntilMessagesAreConsumed()
 
         val mockMvc = webAppContextSetup(webApplicationContext).build()
         mockMvc.perform(post("/invoice/export"))

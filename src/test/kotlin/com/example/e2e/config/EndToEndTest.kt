@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 
 @SpringBootTest(classes = [Application::class])
-@ContextConfiguration(initializers = [PostgresContainer::class])
+@ContextConfiguration(initializers = [PostgresContainer::class, KafkaContainer::class])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EndToEndTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
