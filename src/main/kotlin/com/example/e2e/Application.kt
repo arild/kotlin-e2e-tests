@@ -16,7 +16,8 @@ class Application(val orderRepository: OrderRepository) : CommandLineRunner {
     override fun run(vararg args: String?) {
         orderRepository.save(
             Order(
-                id = 100L,
+                id = 1L,
+                userId = 100L,
                 orderLines = listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(20.0)))
             )
         )
