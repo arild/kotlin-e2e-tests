@@ -5,38 +5,40 @@ import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.DriverManager
-import java.time.Duration
+import java.time.Duration.ofSeconds
 
 private val container = PostgreSQLContainer("postgres:14.2")
     .withDatabaseName("accounting")
     .withUsername("my_user")
     .withPassword("password")
-    .withStartupTimeout(Duration.ofSeconds(30))
+    .withStartupTimeout(ofSeconds(30))
 
 class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
-        container.start()
+        if (!container.isRunning) {
+            container.start()
 
-        val connection = DriverManager.getConnection(
-            container.jdbcUrl,
-            container.username,
-            container.password
-        )
-        connection.prepareStatement(
-            """
-            DO $$
-            BEGIN
-                CREATE ROLE my_user with password 'password';
-                EXCEPTION WHEN DUPLICATE_OBJECT THEN
-                RAISE NOTICE 'not creating role my_user -- it already exists';
-            END
-            $$;
-            """
-        ).execute()
+            val connection = DriverManager.getConnection(
+                container.jdbcUrl,
+                container.username,
+                container.password
+            )
+            connection.prepareStatement(
+                """
+                DO $$
+                BEGIN
+                    CREATE ROLE my_user with password 'password';
+                    EXCEPTION WHEN DUPLICATE_OBJECT THEN
+                    RAISE NOTICE 'not creating role my_user -- it already exists';
+                END
+                $$;
+                """
+            ).execute()
 
-        connection.prepareStatement("ALTER ROLE my_user WITH LOGIN;").execute()
-        connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,INSERT,DELETE,UPDATE ON TABLES TO my_user;").execute()
-        connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,UPDATE ON SEQUENCES TO my_user;").execute()
+            connection.prepareStatement("ALTER ROLE my_user WITH LOGIN;").execute()
+            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,INSERT,DELETE,UPDATE ON TABLES TO my_user;").execute()
+            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,UPDATE ON SEQUENCES TO my_user;").execute()
+        }
 
         TestPropertyValues.of(
             "spring.datasource.url=${container.jdbcUrl}",

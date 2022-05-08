@@ -13,6 +13,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
 import org.springframework.web.context.WebApplicationContext
 import java.math.BigDecimal
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 
 
 class InvoiceExportTest(
@@ -26,16 +29,17 @@ class InvoiceExportTest(
         producer.send(
             OrderEvent(
                 userId = 1,
-                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)), OrderLineEvent(price = BigDecimal(20.0)))
+                created = oneMonthAgo(),
+                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)), OrderLineEvent(price = BigDecimal(20.0))),
             )
         )
         producer.send(
             OrderEvent(
                 userId = 2,
+                created = oneMonthAgo(),
                 orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)))
             )
         )
-
         waitUntilMessagesAreConsumed()
 
         mockMvc.post("/invoice/export")
@@ -51,16 +55,17 @@ class InvoiceExportTest(
         producer.send(
             OrderEvent(
                 userId = 1,
+                created = oneMonthAgo(),
                 orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)), OrderLineEvent(price = BigDecimal(20.0)))
             )
         )
         producer.send(
             OrderEvent(
                 userId = 2,
+                created = oneMonthAgo(),
                 orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)))
             )
         )
-
         waitUntilMessagesAreConsumed()
 
         mockMvc.post("/invoice/export")
@@ -70,4 +75,7 @@ class InvoiceExportTest(
             order.exported.shouldNotBeNull()
         }
     }
+
 })
+
+fun oneMonthAgo(): Instant = LocalDateTime.now().minusMonths(1).toInstant(ZoneOffset.UTC)

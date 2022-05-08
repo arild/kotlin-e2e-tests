@@ -7,7 +7,7 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ContextConfiguration
 
-@SpringBootTest(classes = [Application::class])
+@SpringBootTest(classes = [Application::class], properties = ["spring.main.allow-bean-definition-overriding=true"])
 @ContextConfiguration(initializers = [PostgresContainer::class, KafkaContainer::class])
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class EndToEndTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {

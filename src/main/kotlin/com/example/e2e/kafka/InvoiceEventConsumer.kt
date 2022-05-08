@@ -5,12 +5,12 @@ import com.example.e2e.model.OrderLine
 import com.example.e2e.model.OrderRepository
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.stereotype.Component
-import java.io.Serializable
 import java.math.BigDecimal
+import java.time.Instant
 
-data class OrderEvent(val userId: Long, val orderLines: List<OrderLineEvent>) : Serializable
+data class OrderEvent(val userId: Long, val created: Instant, val orderLines: List<OrderLineEvent>)
 
-data class OrderLineEvent(val price: BigDecimal) : Serializable
+data class OrderLineEvent(val price: BigDecimal)
 
 @Component
 class InvoiceEventConsumer(val orderRepository: OrderRepository) {
@@ -20,6 +20,7 @@ class InvoiceEventConsumer(val orderRepository: OrderRepository) {
         orderRepository.save(
             Order(
                 userId = orderEvent.userId,
+                created = orderEvent.created,
                 orderLines = orderEvent.orderLines.map { OrderLine(price = it.price) }
             )
         )

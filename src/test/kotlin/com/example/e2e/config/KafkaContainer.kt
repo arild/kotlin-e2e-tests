@@ -17,21 +17,26 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.kafka.support.serializer.JsonDeserializer
 import org.testcontainers.containers.KafkaContainer
 import org.testcontainers.utility.DockerImageName
+import java.time.Duration.ofSeconds
 import java.util.concurrent.TimeUnit
 
 private val container = KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:6.2.4"))
+    .withStartupTimeout(ofSeconds(60))
+    .withStartupAttempts(2)
 
 class KafkaContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
     private val topics = listOf("order.changed")
 
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
-        container.start()
+        if (!container.isRunning) {
+            container.start()
 
-        AdminClient
-            .create(mapOf(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG to container.bootstrapServers))
-            .createTopics(topics.map { NewTopic(it, 1, 1) })
-            .all()
-            .get(5, TimeUnit.SECONDS)
+            AdminClient
+                .create(mapOf(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG to container.bootstrapServers))
+                .createTopics(topics.map { NewTopic(it, 1, 1) })
+                .all()
+                .get(5, TimeUnit.SECONDS)
+        }
 
         TestPropertyValues.of(
             "KAFKA_BOOTSTRAP_SERVERS=${container.bootstrapServers}"

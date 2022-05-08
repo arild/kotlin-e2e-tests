@@ -4,13 +4,15 @@ import com.example.e2e.config.DatabaseTest
 import io.kotest.matchers.shouldBe
 import org.springframework.data.repository.findByIdOrNull
 import java.math.BigDecimal
+import java.time.Instant
 
 class OrderRepositoryTest(val orderRepository: OrderRepository) : DatabaseTest({
 
-    "Order repository test" {
+    "Should store and find order" {
         val order = Order(
-            id = 1L,
-            userId = 100L,
+            id = 1,
+            userId = 100,
+            created = Instant.now(),
             listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(10.0)))
         )
         val saved = orderRepository.save(order)

@@ -12,7 +12,6 @@ import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.Table
 
-
 @Entity
 @Table(
     name = "orders",
@@ -24,6 +23,9 @@ data class Order(
 
     @Column(nullable = false)
     val userId: Long,
+
+    @Column(nullable = false)
+    val created: Instant,
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
