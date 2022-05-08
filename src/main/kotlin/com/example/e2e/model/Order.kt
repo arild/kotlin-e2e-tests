@@ -1,5 +1,6 @@
-package com.example.e2e.domain
+package com.example.e2e.model
 
+import java.time.Instant
 import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -26,5 +27,8 @@ data class Order(
 
     @OneToMany(cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
-    val orderLines: List<OrderLine>
+    val orderLines: List<OrderLine>,
+
+    @Column(nullable = true)
+    val exported: Instant? = null
 )

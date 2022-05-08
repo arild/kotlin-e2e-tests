@@ -1,21 +1,17 @@
-package com.example.e2e
+package com.example.e2e.export
 
-import com.example.e2e.repository.OrderRepository
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
+
 @RestController
 class InvoiceExportController(
-    private val orderRepository: OrderRepository,
+    private val invoiceExportService: InvoiceExportService
 ) {
 
     @PostMapping("/invoice/export", produces = [APPLICATION_JSON_VALUE])
     fun invoiceExport(): List<InvoiceResponse> {
-        return orderRepository.findAll()
-            .groupBy { it.userId }
-            .map { InvoiceResponse(userId = it.key) }
+        return invoiceExportService.export()
     }
 }
-
-data class InvoiceResponse(val userId: Long)

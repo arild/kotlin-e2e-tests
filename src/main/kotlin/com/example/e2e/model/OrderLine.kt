@@ -1,4 +1,4 @@
-package com.example.e2e.domain
+package com.example.e2e.model
 
 import java.math.BigDecimal
 import javax.persistence.Column

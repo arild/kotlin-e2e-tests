@@ -1,8 +1,8 @@
 package com.example.e2e
 
-import com.example.e2e.domain.Order
-import com.example.e2e.domain.OrderLine
-import com.example.e2e.repository.OrderRepository
+import com.example.e2e.model.Order
+import com.example.e2e.model.OrderLine
+import com.example.e2e.model.OrderRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

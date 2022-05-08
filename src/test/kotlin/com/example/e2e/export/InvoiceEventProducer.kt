@@ -1,4 +1,4 @@
-package com.example.e2e.config
+package com.example.e2e.export
 
 import com.example.e2e.kafka.OrderEvent
 import org.apache.kafka.clients.producer.ProducerConfig
@@ -27,6 +27,6 @@ class InvoiceEventProducer(
     )
 
     fun send(orderEvent: OrderEvent) {
-        template.send("invoicing.changed", orderEvent)
+        template.send("order.changed", orderEvent)
     }
 }

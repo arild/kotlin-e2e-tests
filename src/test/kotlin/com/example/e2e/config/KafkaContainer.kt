@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 private val container = KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:6.2.4"))
 
 class KafkaContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
-    private val topics = listOf("invoice.changed")
+    private val topics = listOf("order.changed")
 
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
         container.start()
@@ -45,7 +45,7 @@ suspend fun waitUntilMessagesAreConsumed() {
         delay(2000)
         withTimeout(30_000L) {
             while (getLag(consumerGroup) > 0) {
-                delay(50)
+                delay(200)
             }
         }
     } catch (e: TimeoutCancellationException) {
@@ -69,8 +69,8 @@ private fun createConsumer(consumerGroup: String) = KafkaConsumer<String, OrderE
         ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to container.bootstrapServers,
         ConsumerConfig.GROUP_ID_CONFIG to consumerGroup,
         ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG to "false",
-        ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG to "5000",
-        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java.name,
+        ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG to "10000",
+        ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
         ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java,
         JsonDeserializer.TRUSTED_PACKAGES to "*"
     )

@@ -1,6 +1,5 @@
-package com.example.e2e.repository
+package com.example.e2e.model
 
-import com.example.e2e.domain.Order
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
