@@ -1,4 +1,4 @@
-package com.example.e2e.config
+package com.example.e2e.config.container
 
 import com.example.e2e.kafka.OrderEvent
 import io.kotest.assertions.fail

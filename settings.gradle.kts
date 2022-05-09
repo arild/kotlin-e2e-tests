@@ -4,4 +4,4 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
-rootProject.name = "e2e-tests"
+rootProject.name = "spring-boot-e2e-testing"

@@ -1,5 +1,7 @@
 package com.example.e2e.config
 
+import com.example.e2e.config.container.PostgresContainer
+import com.example.e2e.config.container.truncateTables
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase

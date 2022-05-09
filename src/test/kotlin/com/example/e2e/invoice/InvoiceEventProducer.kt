@@ -1,4 +1,4 @@
-package com.example.e2e.export
+package com.example.e2e.invoice
 
 import com.example.e2e.kafka.OrderEvent
 import org.apache.kafka.clients.producer.ProducerConfig

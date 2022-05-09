@@ -1,11 +1,10 @@
-package com.example.e2e.export
+package com.example.e2e.invoice.example1
 
 import com.example.e2e.config.EndToEndTest
-import com.example.e2e.config.waitUntilMessagesAreConsumed
+import com.example.e2e.config.container.waitUntilMessagesAreConsumed
+import com.example.e2e.invoice.InvoiceEventProducer
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
-import com.example.e2e.model.OrderRepository
-import io.kotest.matchers.nulls.shouldNotBeNull
 import org.hamcrest.CoreMatchers.equalTo
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.post
@@ -20,8 +19,7 @@ import java.time.ZoneOffset
 
 class InvoiceExportTest(
     @Autowired val webApplicationContext: WebApplicationContext,
-    @Autowired val producer: InvoiceEventProducer,
-    @Autowired val orderRepository: OrderRepository
+    @Autowired val producer: InvoiceEventProducer
 ) : EndToEndTest({
     val mockMvc = webAppContextSetup(webApplicationContext).build()
 
@@ -50,32 +48,6 @@ class InvoiceExportTest(
             .andExpect { jsonPath("$[1].userId", equalTo(2)) }
             .andExpect { jsonPath("$[1].totalSum", equalTo(10.0)) }
     }
-
-    "Marks orders as exported" {
-        producer.send(
-            OrderEvent(
-                userId = 1,
-                created = oneMonthAgo(),
-                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)), OrderLineEvent(price = BigDecimal(20.0)))
-            )
-        )
-        producer.send(
-            OrderEvent(
-                userId = 2,
-                created = oneMonthAgo(),
-                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)))
-            )
-        )
-        waitUntilMessagesAreConsumed()
-
-        mockMvc.post("/invoice/export")
-            .andExpect { status().isOk }
-
-        orderRepository.findAll().forEach { order ->
-            order.exported.shouldNotBeNull()
-        }
-    }
-
 })
 
 fun oneMonthAgo(): Instant = LocalDateTime.now().minusMonths(1).toInstant(ZoneOffset.UTC)

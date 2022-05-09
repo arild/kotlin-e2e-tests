@@ -1,14 +1,16 @@
-package com.example.e2e.export
+package com.example.e2e.invoice.example4
 
 import com.example.e2e.config.EndToEndTest
-import com.example.e2e.config.waitUntilMessagesAreConsumed
+import com.example.e2e.config.container.waitUntilMessagesAreConsumed
+import com.example.e2e.invoice.EmailNotifier
+import com.example.e2e.invoice.InvoiceEventProducer
+import com.example.e2e.invoice.example1.oneMonthAgo
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
 import com.example.e2e.model.OrderRepository
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.matchers.nulls.shouldBeNull
 import io.mockk.every
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
@@ -17,9 +19,9 @@ import java.math.BigDecimal
 
 
 class InvoiceExportTransactionTest(
-    @Autowired val webApplicationContext: WebApplicationContext,
-    @Autowired val producer: InvoiceEventProducer,
-    @Autowired val orderRepository: OrderRepository,
+    val webApplicationContext: WebApplicationContext,
+    val producer: InvoiceEventProducer,
+    val orderRepository: OrderRepository,
     @MockkBean val emailNotifier: EmailNotifier
 ) : EndToEndTest({
     val mockMvc = webAppContextSetup(webApplicationContext).build()

@@ -1,4 +1,4 @@
-package com.example.e2e.export
+package com.example.e2e.invoice
 
 import com.example.e2e.model.Order
 import com.example.e2e.model.OrderRepository
@@ -12,13 +12,13 @@ import java.time.temporal.TemporalAdjusters
 import javax.transaction.Transactional
 
 @Service
-class InvoiceExportService(
+class InvoiceService(
     private val orderRepository: OrderRepository,
     private val emailNotifier: EmailNotifier,
     private val clock: Clock
 ) {
     @Transactional
-    fun export(): List<InvoiceResponse> {
+    fun exportInvoices(): List<InvoiceResponse> {
         val orders = orderRepository.findAll()
             .filter { previousMonthOrOlder(it) }
 

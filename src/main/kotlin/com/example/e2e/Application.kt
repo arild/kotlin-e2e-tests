@@ -13,6 +13,14 @@ import java.math.BigDecimal
 import java.time.Clock
 import java.time.Instant
 
+@Configuration
+class ClockConfig {
+    @Bean
+    fun clock(): Clock {
+        return Clock.systemUTC()
+    }
+}
+
 @SpringBootApplication
 @EnableJpaRepositories
 class Application(val orderRepository: OrderRepository) : CommandLineRunner {
@@ -28,15 +36,6 @@ class Application(val orderRepository: OrderRepository) : CommandLineRunner {
         )
     }
 }
-
-@Configuration
-class ClockConfig {
-    @Bean
-    fun clock(): Clock {
-        return Clock.systemUTC()
-    }
-}
-
 
 fun main(args: Array<String>) {
     runApplication<Application>(*args)

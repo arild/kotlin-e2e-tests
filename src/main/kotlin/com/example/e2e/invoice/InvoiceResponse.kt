@@ -1,4 +1,4 @@
-package com.example.e2e.export
+package com.example.e2e.invoice
 
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity

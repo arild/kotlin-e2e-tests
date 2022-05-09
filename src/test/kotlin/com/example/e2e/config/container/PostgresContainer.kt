@@ -1,4 +1,4 @@
-package com.example.e2e.config
+package com.example.e2e.config.container
 
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
@@ -8,7 +8,7 @@ import java.sql.DriverManager
 import java.time.Duration.ofSeconds
 
 private val container = PostgreSQLContainer("postgres:14.2")
-    .withDatabaseName("accounting")
+    .withDatabaseName("invoicing")
     .withUsername("my_user")
     .withPassword("password")
     .withStartupTimeout(ofSeconds(30))
