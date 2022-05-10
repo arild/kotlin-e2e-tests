@@ -8,19 +8,17 @@ import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
 import com.example.e2e.model.OrderRepository
 import io.kotest.matchers.nulls.shouldNotBeNull
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
-import org.springframework.web.context.WebApplicationContext
 import java.math.BigDecimal
 
 
 class InvoiceExportDatabaseTest(
-    val webApplicationContext: WebApplicationContext,
     val producer: InvoiceEventProducer,
+    val mockMvc: MockMvc,
     val orderRepository: OrderRepository
 ) : EndToEndTest({
-    val mockMvc = webAppContextSetup(webApplicationContext).build()
 
     "Marks orders as exported during export" {
         producer.send(

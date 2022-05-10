@@ -7,10 +7,9 @@ import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
 import org.hamcrest.CoreMatchers.equalTo
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
-import org.springframework.web.context.WebApplicationContext
 import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDateTime
@@ -18,10 +17,9 @@ import java.time.ZoneOffset
 
 
 class InvoiceExportTest(
-    @Autowired val webApplicationContext: WebApplicationContext,
-    @Autowired val producer: InvoiceEventProducer
+    @Autowired val producer: InvoiceEventProducer,
+    @Autowired val mockMvc: MockMvc
 ) : EndToEndTest({
-    val mockMvc = webAppContextSetup(webApplicationContext).build()
 
     "Performs invoice export" {
         producer.send(

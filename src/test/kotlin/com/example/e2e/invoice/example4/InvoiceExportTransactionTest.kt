@@ -11,20 +11,18 @@ import com.example.e2e.model.OrderRepository
 import com.ninjasquad.springmockk.MockkBean
 import io.kotest.matchers.nulls.shouldBeNull
 import io.mockk.every
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
-import org.springframework.web.context.WebApplicationContext
 import java.math.BigDecimal
 
 
 class InvoiceExportTransactionTest(
-    val webApplicationContext: WebApplicationContext,
     val producer: InvoiceEventProducer,
+    val mockMvc: MockMvc,
     val orderRepository: OrderRepository,
     @MockkBean val emailNotifier: EmailNotifier
 ) : EndToEndTest({
-    val mockMvc = webAppContextSetup(webApplicationContext).build()
 
     "Should rollback order updates when export fails" {
         every { emailNotifier.sendReport(any()) } throws(RuntimeException("Something went wrong"))

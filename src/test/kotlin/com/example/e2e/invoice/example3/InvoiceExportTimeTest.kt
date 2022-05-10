@@ -9,10 +9,9 @@ import org.hamcrest.CoreMatchers.equalTo
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup
-import org.springframework.web.context.WebApplicationContext
 import java.math.BigDecimal
 import java.time.Clock
 import java.time.Instant
@@ -23,10 +22,9 @@ import java.time.temporal.TemporalAdjusters
 
 @ContextConfiguration(classes = [ClockTestConfig::class])
 class InvoiceExportTimeTest(
-    val webApplicationContext: WebApplicationContext,
     val producer: InvoiceEventProducer,
+    val mockMvc: MockMvc,
 ) : EndToEndTest({
-    val mockMvc = webAppContextSetup(webApplicationContext).build()
 
     "Exports orders only from previous month or older" {
         producer.send(
