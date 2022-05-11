@@ -10,7 +10,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer
 import org.springframework.stereotype.Component
 
 @Component
-class InvoiceEventProducer(
+class OrderEventProducer(
     @Value("\${KAFKA_BOOTSTRAP_SERVERS}")
     private val bootstrapServers: String
 ) {

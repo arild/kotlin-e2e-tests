@@ -13,7 +13,7 @@ data class OrderEvent(val userId: Long, val created: Instant, val orderLines: Li
 data class OrderLineEvent(val price: BigDecimal)
 
 @Component
-class InvoiceEventConsumer(val orderRepository: OrderRepository) {
+class OderEventConsumer(val orderRepository: OrderRepository) {
 
     @KafkaListener(topics = ["order.changed"], containerFactory = "invoiceContainerFactory")
     fun consume(orderEvent: OrderEvent) {

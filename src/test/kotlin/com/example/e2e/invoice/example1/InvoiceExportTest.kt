@@ -2,7 +2,7 @@ package com.example.e2e.invoice.example1
 
 import com.example.e2e.config.EndToEndTest
 import com.example.e2e.config.container.waitUntilMessagesAreConsumed
-import com.example.e2e.invoice.InvoiceEventProducer
+import com.example.e2e.invoice.OrderEventProducer
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
 import org.hamcrest.CoreMatchers.equalTo
@@ -17,7 +17,7 @@ import java.time.ZoneOffset
 
 
 class InvoiceExportTest(
-    @Autowired val producer: InvoiceEventProducer,
+    @Autowired val producer: OrderEventProducer,
     @Autowired val mockMvc: MockMvc
 ) : EndToEndTest({
 

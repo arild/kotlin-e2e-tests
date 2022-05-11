@@ -3,7 +3,7 @@ package com.example.e2e.invoice.example4
 import com.example.e2e.config.EndToEndTest
 import com.example.e2e.config.container.waitUntilMessagesAreConsumed
 import com.example.e2e.invoice.EmailNotifier
-import com.example.e2e.invoice.InvoiceEventProducer
+import com.example.e2e.invoice.OrderEventProducer
 import com.example.e2e.invoice.example1.oneMonthAgo
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
@@ -18,7 +18,7 @@ import java.math.BigDecimal
 
 
 class InvoiceExportTransactionTest(
-    val producer: InvoiceEventProducer,
+    val producer: OrderEventProducer,
     val mockMvc: MockMvc,
     val orderRepository: OrderRepository,
     @MockkBean val emailNotifier: EmailNotifier

@@ -2,7 +2,7 @@ package com.example.e2e.invoice.example3
 
 import com.example.e2e.config.EndToEndTest
 import com.example.e2e.config.container.waitUntilMessagesAreConsumed
-import com.example.e2e.invoice.InvoiceEventProducer
+import com.example.e2e.invoice.OrderEventProducer
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
 import org.hamcrest.CoreMatchers.equalTo
@@ -22,7 +22,7 @@ import java.time.temporal.TemporalAdjusters
 
 @ContextConfiguration(classes = [ClockTestConfig::class])
 class InvoiceExportTimeTest(
-    val producer: InvoiceEventProducer,
+    val producer: OrderEventProducer,
     val mockMvc: MockMvc,
 ) : EndToEndTest({
 
