@@ -2,19 +2,25 @@
 
 -- changeset git:git
 
-create table order_line
+CREATE TABLE order_line
 (
-    id          bigserial primary key,
-    price       numeric(19, 2) not null,
-    order_id    bigint
+    id          BIGSERIAL PRIMARY KEY,
+    price       NUMERIC(19, 2) NOT NULL,
+    order_id    BIGINT
 );
 
 CREATE TABLE orders
 (
-    id       bigserial primary key,
-    created  timestamp without time zone not null,
-    exported timestamp without time zone,
-    user_id  bigint not null
+    id       BIGSERIAL PRIMARY KEY,
+    created  TIMESTAMP WITHOUT TIME ZONE NOT NULL,
+    exported TIMESTAMP WITHOUT TIME ZONE,
+    user_id  BIGINT NOT NULL
 );
 
-alter table if exists order_line add constraint fk_orders foreign key (order_id) references orders;
+ALTER TABLE IF EXISTs order_line ADD CONSTRAINT fk_orders FOREIGN KEY (order_id) REFERENCES orders;
+
+ALTER DEFAULT PRIVILEGES FOR USER invoicing_admin IN SCHEMA public GRANT SELECT, INSERT, UPDATE ON TABLES TO invoicing_admin;
+ALTER DEFAULT PRIVILEGES FOR USER invoicing_admin IN SCHEMA public GRANT SELECT, UPDATE ON SEQUENCES TO invoicing_admin;
+
+GRANT SELECT, INSERT, UPDATE ON ALL TABLES IN SCHEMA public TO invoicing_user;
+GRANT SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO invoicing_user;

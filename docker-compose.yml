@@ -4,8 +4,10 @@ services:
   postgres:
     image: postgres:14.2
     environment:
-      POSTGRES_USER: my_user
+      POSTGRES_USER: invoicing_admin
       POSTGRES_PASSWORD: my_password
       POSTGRES_DB: invoicing
+    volumes:
+      - ./scripts/initdb-local-docker:/docker-entrypoint-initdb.d
     ports:
       - "5500:5432"

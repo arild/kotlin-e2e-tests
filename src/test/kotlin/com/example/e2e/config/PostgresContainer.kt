@@ -9,8 +9,8 @@ import java.time.Duration.ofSeconds
 
 private val container = PostgreSQLContainer("postgres:14.2")
     .withDatabaseName("invoicing")
-    .withUsername("admin")
-    .withPassword("admin_password")
+    .withUsername("invoicing_admin")
+    .withPassword("my_password")
     .withStartupTimeout(ofSeconds(30))
 
 class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -27,23 +27,23 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
                 """
                 DO $$
                 BEGIN
-                    CREATE ROLE my_user with password 'my_password';
+                    CREATE ROLE invoicing_user with password 'my_password';
                     EXCEPTION WHEN DUPLICATE_OBJECT THEN
-                    RAISE NOTICE 'not creating role my_user -- it already exists';
+                    RAISE NOTICE 'not creating role invoicing_user -- it already exists';
                 END
                 $$;
                 """
             ).execute()
 
-            connection.prepareStatement("ALTER ROLE my_user WITH LOGIN;").execute()
-            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,INSERT,DELETE,UPDATE ON TABLES TO my_user;").execute()
-            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,UPDATE ON SEQUENCES TO my_user;").execute()
+            connection.prepareStatement("ALTER ROLE invoicing_user WITH LOGIN;").execute()
+            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,INSERT,DELETE,UPDATE ON TABLES TO invoicing_user;").execute()
+            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,UPDATE ON SEQUENCES TO invoicing_user;").execute()
         }
 
         TestPropertyValues.of(
             "spring.datasource.url=${container.jdbcUrl}",
             "spring.datasource.password=my_password",
-            "spring.liquibase.password=admin_password"
+            "spring.liquibase.password=my_password"
         ).applyTo(applicationContext.environment)
     }
 }
