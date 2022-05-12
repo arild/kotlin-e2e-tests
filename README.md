@@ -1,5 +1,5 @@
 ## Spring Boot End-To-End Testing
-Demo invoicing application showing end-to-end testing with: [Spring Boot](https://spring.io/projects/spring-boot), [Testcontainers](https://www.testcontainers.org/), [Kotlin](https://kotlinlang.org/) and [KoTest](https://kotest.io/). Application receives data over Kafka and triggers an invoice export over REST.
+Demo invoicing application showing end-to-end testing with: [Spring Boot](https://spring.io/projects/spring-boot), [Testcontainers](https://www.testcontainers.org/), [Kotlin](https://kotlinlang.org/) and [KoTest](https://kotest.io/). Application receives data over Kafka, data is stored in Postgres, and invoice export is triggered via REST.
 
 ### How to run
 `./gradlew test` to run tests
