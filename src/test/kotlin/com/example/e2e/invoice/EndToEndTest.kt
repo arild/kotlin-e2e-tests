@@ -1,9 +1,9 @@
-package com.example.e2e.config
+package com.example.e2e.invoice
 
 import com.example.e2e.Application
-import com.example.e2e.config.container.KafkaContainer
-import com.example.e2e.config.container.PostgresContainer
-import com.example.e2e.config.container.truncateTables
+import com.example.e2e.config.KafkaContainer
+import com.example.e2e.config.PostgresContainer
+import com.example.e2e.config.truncateTables
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.core.test.TestCase
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc

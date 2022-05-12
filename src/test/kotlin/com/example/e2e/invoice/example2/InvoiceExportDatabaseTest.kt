@@ -1,7 +1,7 @@
 package com.example.e2e.invoice.example2
 
-import com.example.e2e.config.EndToEndTest
-import com.example.e2e.config.container.waitUntilMessagesAreConsumed
+import com.example.e2e.config.waitUntilMessagesAreConsumed
+import com.example.e2e.invoice.EndToEndTest
 import com.example.e2e.invoice.OrderEventProducer
 import com.example.e2e.invoice.example1.oneMonthAgo
 import com.example.e2e.kafka.OrderEvent
@@ -12,7 +12,6 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.math.BigDecimal
-
 
 class InvoiceExportDatabaseTest(
     val producer: OrderEventProducer,

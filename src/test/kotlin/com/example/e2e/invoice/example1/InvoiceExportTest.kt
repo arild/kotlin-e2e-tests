@@ -1,7 +1,7 @@
 package com.example.e2e.invoice.example1
 
-import com.example.e2e.config.EndToEndTest
-import com.example.e2e.config.container.waitUntilMessagesAreConsumed
+import com.example.e2e.config.waitUntilMessagesAreConsumed
+import com.example.e2e.invoice.EndToEndTest
 import com.example.e2e.invoice.OrderEventProducer
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
@@ -14,7 +14,6 @@ import java.math.BigDecimal
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneOffset
-
 
 class InvoiceExportTest(
     @Autowired val producer: OrderEventProducer,

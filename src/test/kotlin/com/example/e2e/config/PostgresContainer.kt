@@ -1,4 +1,4 @@
-package com.example.e2e.config.container
+package com.example.e2e.config
 
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
