@@ -4,7 +4,6 @@ import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 
-
 @RestController
 class InvoiceController(
     private val invoiceService: InvoiceService
