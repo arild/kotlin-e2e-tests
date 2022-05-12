@@ -45,7 +45,7 @@ class KafkaContainer : ApplicationContextInitializer<ConfigurableApplicationCont
 }
 
 suspend fun waitUntilMessagesAreConsumed() {
-    val consumerGroup = "invoicing-consumer-group"
+    val consumerGroup = "order-consumer-group"
     try {
         delay(2000)
         withTimeout(30_000L) {

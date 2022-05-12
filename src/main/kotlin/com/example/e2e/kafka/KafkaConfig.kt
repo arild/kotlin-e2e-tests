@@ -21,7 +21,7 @@ class KafkaConfig(
     fun invoiceContainerFactory() = ConcurrentKafkaListenerContainerFactory<String, OrderEvent>().apply {
         consumerFactory = DefaultKafkaConsumerFactory(
             mapOf(
-                ConsumerConfig.GROUP_ID_CONFIG to "invoicing-consumer-group",
+                ConsumerConfig.GROUP_ID_CONFIG to "order-consumer-group",
                 ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG to bootstrapServers,
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java,
