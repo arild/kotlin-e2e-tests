@@ -10,3 +10,8 @@ Demo invoicing application showing end-to-end testing with: [Spring Boot](https:
 * `example3/InvoiceExportTimeTest.kt`: End-to-end test controlling time during the test
 * `example4/InvoiceExportTest.kt`: End-to-end test verifying rollback of transaction
 * `model/OrderRepositoryTest.kt`: Database integration test for repository (no kafka container)
+
+### Resources
+* Presentation related to demo application: https://docs.google.com/presentation/d/15gOCVnkMMb5MPzS8g3abrEzzpMO_-p7NtaF3Rk0Ed44
+* The Practical Test Pyramid: https://martinfowler.com/articles/practical-test-pyramid.html
+* Excellent book on software testing: [Growing Object-Oriented Software, Guided by Tests](https://www.amazon.com/Growing-Object-Oriented-Software-Guided-Tests/dp/0321503627)
