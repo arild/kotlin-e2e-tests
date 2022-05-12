@@ -9,8 +9,8 @@ import java.time.Duration.ofSeconds
 
 private val container = PostgreSQLContainer("postgres:14.2")
     .withDatabaseName("invoicing")
-    .withUsername("my_user")
-    .withPassword("password")
+    .withUsername("admin")
+    .withPassword("admin_password")
     .withStartupTimeout(ofSeconds(30))
 
 class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -27,7 +27,7 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
                 """
                 DO $$
                 BEGIN
-                    CREATE ROLE my_user with password 'password';
+                    CREATE ROLE my_user with password 'my_password';
                     EXCEPTION WHEN DUPLICATE_OBJECT THEN
                     RAISE NOTICE 'not creating role my_user -- it already exists';
                 END
@@ -42,7 +42,8 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
 
         TestPropertyValues.of(
             "spring.datasource.url=${container.jdbcUrl}",
-            "spring.datasource.password=password",
+            "spring.datasource.password=my_password",
+            "spring.liquibase.password=admin_password"
         ).applyTo(applicationContext.environment)
     }
 }

@@ -29,6 +29,7 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.springframework.kafka:spring-kafka")
 	implementation("org.postgresql:postgresql:42.3.4")
+	implementation("org.liquibase:liquibase-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
 	testImplementation("org.testcontainers:postgresql")

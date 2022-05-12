@@ -5,7 +5,7 @@ services:
     image: postgres:14.2
     environment:
       POSTGRES_USER: my_user
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: my_password
       POSTGRES_DB: invoicing
     ports:
       - "5500:5432"
