@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class InvoiceController(
-    private val invoiceService: InvoiceService
+    private val invoiceService: InvoiceService,
 ) {
 
     @PostMapping("/invoice/export", produces = [APPLICATION_JSON_VALUE])

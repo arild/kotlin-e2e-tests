@@ -1,12 +1,12 @@
 package com.example.e2e.model
 
+import jakarta.persistence.Column
+import jakarta.persistence.Entity
+import jakarta.persistence.GeneratedValue
+import jakarta.persistence.GenerationType
+import jakarta.persistence.Id
+import jakarta.persistence.Table
 import java.math.BigDecimal
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
-import javax.persistence.Table
 
 @Entity
 @Table(
@@ -18,5 +18,5 @@ data class OrderLine(
     val id: Long = 0,
 
     @Column(nullable = false)
-    val price: BigDecimal
+    val price: BigDecimal,
 )

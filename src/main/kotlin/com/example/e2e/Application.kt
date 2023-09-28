@@ -20,7 +20,7 @@ class Application(val orderRepository: OrderRepository) : CommandLineRunner {
             id = 1,
             userId = 100,
             created = Instant.now(),
-            orderLines = listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(20.0)))
+            orderLines = listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(20.0))),
         )
 
         orderRepository.save(testOrder)
@@ -30,7 +30,6 @@ class Application(val orderRepository: OrderRepository) : CommandLineRunner {
 fun main(args: Array<String>) {
     runApplication<Application>(*args)
 }
-
 
 @Configuration
 class ClockConfig {

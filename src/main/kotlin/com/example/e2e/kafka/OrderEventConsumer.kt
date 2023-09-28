@@ -21,8 +21,8 @@ class OderEventConsumer(val orderRepository: OrderRepository) {
             Order(
                 userId = orderEvent.userId,
                 created = orderEvent.created,
-                orderLines = orderEvent.orderLines.map { OrderLine(price = it.price) }
-            )
+                orderLines = orderEvent.orderLines.map { OrderLine(price = it.price) },
+            ),
         )
     }
 }

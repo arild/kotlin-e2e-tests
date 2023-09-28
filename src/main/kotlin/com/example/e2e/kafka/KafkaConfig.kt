@@ -25,7 +25,7 @@ class KafkaConfig(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG to StringDeserializer::class.java,
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG to JsonDeserializer::class.java,
                 JsonDeserializer.TRUSTED_PACKAGES to "com.example.e2e.kafka",
-            )
+            ),
         )
     }
 }
