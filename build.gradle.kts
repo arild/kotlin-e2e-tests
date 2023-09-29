@@ -3,11 +3,11 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "3.1.4"
     id("io.spring.dependency-management") version "1.1.3"
-    id("org.jetbrains.kotlin.plugin.noarg") version "1.9.10"
-    id("org.jetbrains.kotlin.plugin.allopen") version "1.9.10"
     kotlin("jvm") version "1.9.10"
     kotlin("plugin.spring") version "1.9.10"
     kotlin("plugin.jpa") version "1.9.10"
+    kotlin("plugin.noarg") version "1.9.10"
+    kotlin("plugin.allopen") version "1.9.10"
 }
 
 group = "com.example"
@@ -25,8 +25,8 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.9.10")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.postgresql:postgresql:42.3.8")
     implementation("org.liquibase:liquibase-core")
@@ -46,15 +46,20 @@ dependencyManagement {
     }
 }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions {
-        freeCompilerArgs = listOf("-Xjsr305=strict")
-        jvmTarget = "17"
+tasks {
+    withType<KotlinCompile> {
+        kotlinOptions {
+            freeCompilerArgs = listOf("-Xjsr305=strict")
+            jvmTarget = "17"
+        }
     }
-}
-
-tasks.withType<Test> {
-    useJUnitPlatform()
+    withType<JavaCompile> {
+        sourceCompatibility = "17"
+        targetCompatibility = "17"
+    }
+    test {
+        useJUnitPlatform()
+    }
 }
 
 apply(plugin = "kotlin-spring")
