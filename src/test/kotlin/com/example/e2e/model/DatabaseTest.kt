@@ -13,5 +13,5 @@ import org.springframework.test.context.ContextConfiguration
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class DatabaseTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
-    override fun beforeEach(testCase: TestCase) = truncateTables()
+    override suspend fun beforeEach(testCase: TestCase) = truncateTables()
 }

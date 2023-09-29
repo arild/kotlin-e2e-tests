@@ -27,7 +27,7 @@ import org.testcontainers.utility.DockerImageName
 @Testcontainers
 class EndToEndTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
-    override fun beforeEach(testCase: TestCase) = truncateTables()
+    override suspend fun beforeEach(testCase: TestCase) = truncateTables()
 
     companion object {
         @Container
