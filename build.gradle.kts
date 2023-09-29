@@ -37,6 +37,7 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:4.6.4")
     testImplementation("io.kotest:kotest-extensions-spring:4.4.3")
+    testImplementation("org.awaitility:awaitility:4.2.0")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
