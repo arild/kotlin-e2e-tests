@@ -7,8 +7,8 @@ import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.DriverManager
 
 private val container = PostgreSQLContainer("postgres:14.2")
-    .withDatabaseName("invoicing")
-    .withUsername("invoicing_admin")
+    .withDatabaseName("invoice")
+    .withUsername("invoice_admin")
     .withPassword("my_password")
 
 class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
@@ -25,17 +25,17 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
                 """
                 DO $$
                 BEGIN
-                    CREATE ROLE invoicing_user with password 'my_password';
+                    CREATE ROLE invoice_user with password 'my_password';
                     EXCEPTION WHEN DUPLICATE_OBJECT THEN
-                    RAISE NOTICE 'not creating role invoicing_user -- it already exists';
+                    RAISE NOTICE 'not creating role invoice_user -- it already exists';
                 END
                 $$;
                 """,
             ).execute()
 
-            connection.prepareStatement("ALTER ROLE invoicing_user WITH LOGIN;").execute()
-            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,INSERT,DELETE,UPDATE ON TABLES TO invoicing_user;").execute()
-            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,UPDATE ON SEQUENCES TO invoicing_user;").execute()
+            connection.prepareStatement("ALTER ROLE invoice_user WITH LOGIN;").execute()
+            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,INSERT,DELETE,UPDATE ON TABLES TO invoice_user;").execute()
+            connection.prepareStatement("ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT,UPDATE ON SEQUENCES TO invoice_user;").execute()
         }
 
         TestPropertyValues.of(
