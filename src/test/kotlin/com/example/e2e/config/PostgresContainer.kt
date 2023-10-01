@@ -5,13 +5,11 @@ import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.DriverManager
-import java.time.Duration.ofSeconds
 
 private val container = PostgreSQLContainer("postgres:14.2")
     .withDatabaseName("invoicing")
     .withUsername("invoicing_admin")
     .withPassword("my_password")
-    .withStartupTimeout(ofSeconds(30))
 
 class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationContext> {
     override fun initialize(applicationContext: ConfigurableApplicationContext) {
@@ -21,7 +19,7 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
             val connection = DriverManager.getConnection(
                 container.jdbcUrl,
                 container.username,
-                container.password
+                container.password,
             )
             connection.prepareStatement(
                 """
@@ -32,7 +30,7 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
                     RAISE NOTICE 'not creating role invoicing_user -- it already exists';
                 END
                 $$;
-                """
+                """,
             ).execute()
 
             connection.prepareStatement("ALTER ROLE invoicing_user WITH LOGIN;").execute()
@@ -43,7 +41,7 @@ class PostgresContainer : ApplicationContextInitializer<ConfigurableApplicationC
         TestPropertyValues.of(
             "spring.datasource.url=${container.jdbcUrl}",
             "spring.datasource.password=my_password",
-            "spring.liquibase.password=my_password"
+            "spring.liquibase.password=my_password",
         ).applyTo(applicationContext.environment)
     }
 }
@@ -52,7 +50,7 @@ fun truncateTables() {
     val connection = DriverManager.getConnection(
         container.jdbcUrl,
         container.username,
-        container.password
+        container.password,
     )
 
     val allTables = "orders, order_line"
