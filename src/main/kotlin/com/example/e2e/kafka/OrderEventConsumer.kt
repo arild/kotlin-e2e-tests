@@ -15,7 +15,7 @@ data class OrderLineEvent(val price: BigDecimal)
 @Component
 class OderEventConsumer(val orderRepository: OrderRepository) {
 
-    @KafkaListener(topics = ["order"], groupId = "demo")
+    @KafkaListener(topics = ["order"], groupId = "invoice")
     fun consume(orderEvent: OrderEvent) {
         orderRepository.save(
             Order(
