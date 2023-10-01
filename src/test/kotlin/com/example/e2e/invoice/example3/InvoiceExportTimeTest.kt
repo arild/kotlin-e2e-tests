@@ -4,8 +4,6 @@ import com.example.e2e.invoice.EndToEndTest
 import com.example.e2e.invoice.OrderProducer
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
-import org.awaitility.kotlin.await
-import org.awaitility.kotlin.untilAsserted
 import org.hamcrest.CoreMatchers.equalTo
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -28,14 +26,12 @@ class InvoiceExportTimeTest(
 ) : EndToEndTest({
 
     "Exports orders only from previous month or older" {
-        orderProducer.send(
+        orderProducer.sendAndWaitUntilConsumed(
             OrderEvent(
                 userId = 10,
                 created = startOfMonth,
                 orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0))),
             ),
-        )
-        orderProducer.send(
             OrderEvent(
                 userId = 11,
                 created = startOfMonth.minusSeconds(1),
@@ -43,12 +39,10 @@ class InvoiceExportTimeTest(
             ),
         )
 
-        await untilAsserted {
-            mockMvc.post("/invoice/export")
-                .andExpect { status().isOk }
-                .andExpect { jsonPath("$.length()", equalTo(1)) }
-                .andExpect { jsonPath("$[0].userId", equalTo(11)) }
-        }
+        mockMvc.post("/invoice/export")
+            .andExpect { status().isOk }
+            .andExpect { jsonPath("$.length()", equalTo(1)) }
+            .andExpect { jsonPath("$[0].userId", equalTo(11)) }
     }
 })
 

@@ -11,8 +11,6 @@ import com.ninjasquad.springmockk.MockkBean
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.mockk.every
-import org.awaitility.kotlin.await
-import org.awaitility.kotlin.untilAsserted
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -26,8 +24,8 @@ class InvoiceExportTransactionTest(
 ) : EndToEndTest({
 
     "Should rollback order updates when export fails" {
-        every { emailNotifier.sendReport(any()) } throws (RuntimeException("Something went wrong"))
-        orderProducer.send(
+        every { emailNotifier.sendReport(any()) } throws RuntimeException("Something went wrong")
+        orderProducer.sendAndWaitUntilConsumed(
             OrderEvent(
                 userId = 1,
                 created = oneMonthAgo(),
@@ -37,9 +35,8 @@ class InvoiceExportTransactionTest(
                 ),
             ),
         )
-        await untilAsserted {
-            orderRepository.findAll().shouldNotBeEmpty()
-        }
+
+        orderRepository.findAll().shouldNotBeEmpty()
 
         mockMvc.post("/invoice/export").andExpect { status().is5xxServerError }
         orderRepository.findAll().forEach { order ->
