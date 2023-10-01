@@ -31,20 +31,15 @@ dependencies {
     implementation("org.postgresql:postgresql:42.3.8")
     implementation("org.liquibase:liquibase-core")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("org.springframework.boot:spring-boot-testcontainers:3.2.0-M3")
     testImplementation("org.testcontainers:postgresql")
-    testImplementation("org.testcontainers:kafka")
     testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.springframework.kafka:spring-kafka-test")
+    testImplementation("org.testcontainers:kafka")
     testImplementation("io.kotest:kotest-runner-junit5-jvm:5.7.2")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:1.1.3")
     testImplementation("org.awaitility:awaitility:4.2.0")
     testImplementation("com.ninja-squad:springmockk:4.0.2")
-}
-
-dependencyManagement {
-    imports {
-        mavenBom("org.testcontainers:testcontainers-bom:${property("testcontainersVersion")}")
-    }
 }
 
 tasks {
