@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext
 import org.testcontainers.containers.PostgreSQLContainer
 import java.sql.DriverManager
 
-private val container = PostgreSQLContainer("postgres:14.2")
+private val container = PostgreSQLContainer("postgres:15-alpine3.17")
     .withDatabaseName("invoice")
     .withUsername("invoice_admin")
     .withPassword("my_password")

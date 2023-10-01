@@ -26,7 +26,7 @@ class EndToEndTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
     companion object {
         @ServiceConnection
-        val kafkaContainer = KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.3.3"))
+        val kafkaContainer = KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.3.5"))
 
         init { kafkaContainer.start() }
     }
