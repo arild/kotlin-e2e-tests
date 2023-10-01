@@ -7,14 +7,13 @@ import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
 import com.example.e2e.model.OrderRepository
 import io.kotest.matchers.nulls.shouldNotBeNull
+import org.awaitility.kotlin.await
+import org.awaitility.kotlin.untilAsserted
 import org.hamcrest.CoreMatchers
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.testcontainers.shaded.org.awaitility.Awaitility.await
 import java.math.BigDecimal
-import java.time.Duration.ofSeconds
-import java.util.concurrent.TimeUnit.SECONDS
 
 class InvoiceExportDatabaseTest(
     val orderProducer: OrderProducer,
@@ -38,14 +37,11 @@ class InvoiceExportDatabaseTest(
             ),
         )
 
-        await()
-            .pollInterval(ofSeconds(1))
-            .atMost(10, SECONDS)
-            .untilAsserted {
-                mockMvc.post("/invoice/export")
-                    .andExpect { status().isOk }
-                    .andExpect { jsonPath("$.length()", CoreMatchers.equalTo(2)) }
-            }
+        await untilAsserted {
+            mockMvc.post("/invoice/export")
+                .andExpect { status().isOk }
+                .andExpect { jsonPath("$.length()", CoreMatchers.equalTo(2)) }
+        }
 
         orderRepository.findAll().forEach { order ->
             order.exported.shouldNotBeNull()

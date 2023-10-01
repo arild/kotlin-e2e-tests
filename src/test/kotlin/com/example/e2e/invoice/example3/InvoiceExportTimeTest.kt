@@ -4,6 +4,8 @@ import com.example.e2e.invoice.EndToEndTest
 import com.example.e2e.invoice.OrderProducer
 import com.example.e2e.kafka.OrderEvent
 import com.example.e2e.kafka.OrderLineEvent
+import org.awaitility.kotlin.await
+import org.awaitility.kotlin.untilAsserted
 import org.hamcrest.CoreMatchers.equalTo
 import org.springframework.boot.test.context.TestConfiguration
 import org.springframework.context.annotation.Bean
@@ -11,16 +13,13 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.testcontainers.shaded.org.awaitility.Awaitility.await
 import java.math.BigDecimal
 import java.time.Clock
-import java.time.Duration.ofSeconds
 import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.ZoneOffset
 import java.time.temporal.TemporalAdjusters
-import java.util.concurrent.TimeUnit.SECONDS
 
 @ContextConfiguration(classes = [ClockTestConfig::class])
 class InvoiceExportTimeTest(
@@ -44,15 +43,12 @@ class InvoiceExportTimeTest(
             ),
         )
 
-        await()
-            .pollInterval(ofSeconds(1))
-            .atMost(10, SECONDS)
-            .untilAsserted {
-                mockMvc.post("/invoice/export")
-                    .andExpect { status().isOk }
-                    .andExpect { jsonPath("$.length()", equalTo(1)) }
-                    .andExpect { jsonPath("$[0].userId", equalTo(11)) }
-            }
+        await untilAsserted {
+            mockMvc.post("/invoice/export")
+                .andExpect { status().isOk }
+                .andExpect { jsonPath("$.length()", equalTo(1)) }
+                .andExpect { jsonPath("$[0].userId", equalTo(11)) }
+        }
     }
 })
 

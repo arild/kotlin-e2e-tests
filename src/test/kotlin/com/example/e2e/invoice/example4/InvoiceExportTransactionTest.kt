@@ -11,13 +11,12 @@ import com.ninjasquad.springmockk.MockkBean
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.mockk.every
+import org.awaitility.kotlin.await
+import org.awaitility.kotlin.untilAsserted
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
-import org.testcontainers.shaded.org.awaitility.Awaitility.await
 import java.math.BigDecimal
-import java.time.Duration.ofSeconds
-import java.util.concurrent.TimeUnit.SECONDS
 
 class InvoiceExportTransactionTest(
     val orderProducer: OrderProducer,
@@ -38,12 +37,9 @@ class InvoiceExportTransactionTest(
                 ),
             ),
         )
-        await()
-            .pollInterval(ofSeconds(1))
-            .atMost(10, SECONDS)
-            .untilAsserted {
-                orderRepository.findAll().shouldNotBeEmpty()
-            }
+        await untilAsserted {
+            orderRepository.findAll().shouldNotBeEmpty()
+        }
 
         mockMvc.post("/invoice/export").andExpect { status().is5xxServerError }
         orderRepository.findAll().forEach { order ->
