@@ -28,7 +28,10 @@ class InvoiceExportTest(
             OrderEvent(
                 userId = 1,
                 created = oneMonthAgo(),
-                orderLines = listOf(OrderLineEvent(price = BigDecimal(10.0)), OrderLineEvent(price = BigDecimal(20.0))),
+                orderLines = listOf(
+                    OrderLineEvent(price = BigDecimal(10.0)),
+                    OrderLineEvent(price = BigDecimal(20.0)),
+                ),
             ),
         )
         kafkaTemplate.send(

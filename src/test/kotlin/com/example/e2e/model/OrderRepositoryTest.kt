@@ -12,7 +12,7 @@ class OrderRepositoryTest(val orderRepository: OrderRepository) : DatabaseTest({
             id = 1,
             userId = 100,
             created = Instant.now(),
-            listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(10.0)))
+            listOf(OrderLine(price = BigDecimal(10.0)), OrderLine(price = BigDecimal(10.0))),
         )
         val saved = orderRepository.save(order)
 

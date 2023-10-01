@@ -29,7 +29,9 @@ class InvoiceService(
                     userId = it.key,
                     totalSum = it.value
                         .flatMap { order -> order.orderLines }
-                        .fold(BigDecimal.ZERO) { acc, orderLine -> acc.add(orderLine.price) },
+                        .fold(BigDecimal.ZERO) { acc, orderLine ->
+                            acc.add(orderLine.price)
+                        },
                 )
             }
 

@@ -11,6 +11,7 @@ import com.ninjasquad.springmockk.MockkBean
 import io.kotest.matchers.collections.shouldNotBeEmpty
 import io.kotest.matchers.nulls.shouldBeNull
 import io.mockk.every
+import io.mockk.verify
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.post
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -35,12 +36,14 @@ class InvoiceExportTransactionTest(
                 ),
             ),
         )
-
         orderRepository.findAll().shouldNotBeEmpty()
 
-        mockMvc.post("/invoice/export").andExpect { status().is5xxServerError }
+        mockMvc.post("/invoice/export")
+            .andExpect { status().is5xxServerError }
+
         orderRepository.findAll().forEach { order ->
             order.exported.shouldBeNull()
         }
+        verify(exactly = 1) { emailNotifier.sendReport(any()) }
     }
 })

@@ -18,8 +18,8 @@ import org.testcontainers.utility.DockerImageName
         "spring.main.allow-bean-definition-overriding=true",
     ],
 )
-@ContextConfiguration(initializers = [PostgresContainer::class])
 @AutoConfigureMockMvc
+@ContextConfiguration(initializers = [PostgresContainer::class])
 class EndToEndTest(body: StringSpec.() -> Unit = {}) : StringSpec(body) {
 
     override suspend fun beforeEach(testCase: TestCase) = truncateTables()

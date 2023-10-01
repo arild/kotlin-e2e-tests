@@ -8,7 +8,11 @@ import org.springframework.stereotype.Component
 import java.math.BigDecimal
 import java.time.Instant
 
-data class OrderEvent(val userId: Long, val created: Instant, val orderLines: List<OrderLineEvent>)
+data class OrderEvent(
+    val userId: Long,
+    val created: Instant,
+    val orderLines: List<OrderLineEvent>,
+)
 
 data class OrderLineEvent(val price: BigDecimal)
 
@@ -21,7 +25,9 @@ class OderEventConsumer(val orderRepository: OrderRepository) {
             Order(
                 userId = orderEvent.userId,
                 created = orderEvent.created,
-                orderLines = orderEvent.orderLines.map { OrderLine(price = it.price) },
+                orderLines = orderEvent.orderLines.map {
+                    OrderLine(price = it.price)
+                },
             ),
         )
     }
