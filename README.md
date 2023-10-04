@@ -12,6 +12,7 @@ Demo invoicing application showing end-to-end testing with: [Spring Boot](https:
 * `model/OrderRepositoryTest.kt`: Database integration test for repository (no kafka container)
 
 ### Resources
-* Presentation related to demo application: https://docs.google.com/presentation/d/1P6uKXtLEjXz7LV2tzBbR07TJKaG3o0nIV0hxulwCnz4
+* Testing of microservices at Spotify: https://engineering.atspotify.com/2018/01/testing-of-microservices
 * The Practical Test Pyramid: https://martinfowler.com/articles/practical-test-pyramid.html
 * Excellent book on software testing: [Growing Object-Oriented Software, Guided by Tests](https://www.amazon.com/Growing-Object-Oriented-Software-Guided-Tests/dp/0321503627)
+* Slides related to demo application: https://docs.google.com/presentation/d/1P6uKXtLEjXz7LV2tzBbR07TJKaG3o0nIV0hxulwCnz4
